@@ -17,7 +17,7 @@ def obter_endereco_por_cep(cep):
 caminho_planilha = "CEP.xlsx"
 planilha_ceps = pd.read_excel(caminho_planilha, sheets_name="CEP")
 ceps = planilha_ceps["CEP"]. dropna()
-resultados = pd.DataFrame(columns=["CEP", "Logradouro", "Bairro", "Cidade", "Estado"])
+resultados = pd.DataFrame(columns=["CEP", "Logradouro", "Bairro", "Localidade", "Estado"])
 for cep in ceps:
     endereco = obter_endereco_por_cep(str(cep).replace("-", ""))
     if endereco:
