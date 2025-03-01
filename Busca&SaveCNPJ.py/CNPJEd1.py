@@ -1,40 +1,28 @@
 import http.client
 import json
+import pandas as pd
 
 
-def obter_dados_empresa_por_cnpj(cnpj):
-    conexao = http.client.HTTPSConnection('receitaws.com.br')
-    conexao.request('GET', f"/v1/cnpj/{cnpj}")
-    resposta = conexao.getresponse()
+def obter_dados_empresa(cnpj):
+    conexão = http.client.HTTPSConnection("receitaws.com.br")
+    conexão.request("GET", f"/v1/cnpj/{cnpj}")
+    resposta = conexão.getresponse()
+    print(f"Status da resposta HTTP: {resposta.status}")
+    if resposta.status != 200:
+        return{"Status": "ERROR", "Message": f"Resposta HTPP com status {resposta.status}"}
     dados = resposta.read()
-    empresa = json.loads(dados.decode('utf-8'))
-    conexao.close()
-    return empresa
-
-caminho_planilha = r"C:\Users\Joden\OneDrive\Área de Trabalho\CARREIRA PROGRAMAÇÃO\Projetos-RPA\Projetos-RPA\Busca&SaveCNPJ.py\CNPJ.xlsx"
-for cnpj in cnpjs:
-    
-    empresa = obter_dados_empresa_por_cnpj(cnpj)
-    if empresa.get("status", '') == 'ERROR':
-        return empresa.get("message", 'Erro desconhecido')
-    else:
+    conexão.close()
+    try:
+        empresa = json.loads(dados)
+        print(f"Empresa decodificada:{empresa}")
         return empresa
-if not os.path.exists(caminho_planilha):
-    print(f"Erro: O arquivo '{caminho_planilha}' não foi encontrado.")
-    exit(1)
-
-planilha_cnpjs = pd.read_excel(caminho_planilha, sheet_name="CNPJ")
-cnpjs = planilha_cnpjs["CNPJ"].dropna()
-
-    if empresa.get("status", '') == 'ERROR':
-        return empresa.get("message", 'Erro desconhecido')
-    else:
-        return empresa
-
+    except json.JSONDecoder as e:
+        print(f"Erro ao decodificar JSON: {str(e)}")
+        return{"status": "ERROR", "message": f"Erro ao decodificar JSON: {str(e)}"}
+def salvar_dados_empresa(dados_empresa):
+    if dados_empresa.get('status') != 'ERROR':
+        dados_empresa = tratar_dados_aninhados(dados_empresa)
 cnpj_exemplo = "33157312000162"
-dados_empresa = obter_dados_empresa_por_cnpj(cnpj_exemplo)
-
-with pd.ExcelWriter(caminho_planilha, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
-    resultados.to_excel(writer, sheet_name="Dados", index=False)
-
+dados_empresa = obter_dados_empresa(cnpj_exemplo)
+salvar_dados_empresa(dados_empresa)
 print(dados_empresa)
