@@ -1,29 +1,19 @@
-# import http.client
-# import json
-# import pandas as pd
+import http.client
+import json
+import pandas as pd
 
+def limpar_cnpj(cnpj):
+    return ''.join(filter(str.isdigit, str(cnpj)))
 
-# def obter_dados_empresa(cnpj):
-#     conexão = http.client.HTTPSConnection("receitaws.com.br")
-#     conexão.request("GET", f"/v1/cnpj/{cnpj}")
-#     resposta = conexão.getresponse()
-#     print(f"Status da resposta HTTP: {resposta.status}")
-#     if resposta.status != 200:
-#         return{"Status": "ERROR", "Message": f"Resposta HTPP com status {resposta.status}"}
-#     dados = resposta.read()
-#     conexão.close()
-#     try:
-#         empresa = json.loads(dados)
-#         print(f"Empresa decodificada:{empresa}")
-#         return empresa
-#     except json.JSONDecoder as e:
-#         print(f"Erro ao decodificar JSON: {str(e)}")
-#         return{"status": "ERROR", "message": f"Erro ao decodificar JSON: {str(e)}"}
-# def salvar_dados_empresa(dados_empresa):
-#     if dados_empresa.get('status') != 'ERROR':
-#         dados_empresa = tratar_dados_aninhados(dados_empresa)
-# def tra
-# cnpj_exemplo = "33157312000162"
-# dados_empresa = obter_dados_empresa(cnpj_exemplo)
-# salvar_dados_empresa(dados_empresa)
-# print(dados_empresa)
+def obter_dados_empresa_por_cnpj(cnpj):
+    cnpj = limpar_cnpj(cnpj)
+
+caminho_planilha = r"C:\Users\Joden\OneDrive\Área de Trabalho\CARREIRA PROGRAMAÇÃO\CNPJ.xlsx"
+planilha_cnpjs = pd.read_excel(caminho_planilha, sheet_name="CNPJ", dtype={'CNPJ': str})
+
+resultados = []
+for cnpj in planilha_cnpjs['CNPJ'].dropna():
+    print(f"Lendo CNPJ: {cnpj}")
+
+    dados_empresa = obter_dados_empresa_por_cnpj(str(cnpj))
+
