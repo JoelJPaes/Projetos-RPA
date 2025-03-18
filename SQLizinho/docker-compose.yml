@@ -1,5 +1,5 @@
 version: "3"
-services:
+services: 
   mysql_knex:
     container_name: mysql_knex
     hostname: mysql_knex
@@ -9,9 +9,8 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --innodb_force_recovery=0
-    volumes:
-      - C:\Users\Joden\OneDrive\Área de Trabalho\CARREIRA PROGRAMAÇÃO\Projetos-RPA\Projetos-RPA\SQLizinho:/var/lib/mysql
-      - //C/Users/Joden/OneDrive/Área de Trabalho/CARREIRA PROGRAMAÇÃO/Projetos-RPA/Projetos-RPA/SQLizinho/init.sql:/docker-entrypoint-initdb.d/init.sql
+    volumes: 
+      - C:\Users\Joden\OneDrive\Área de Trabalho\CARREIRA PROGRAMAÇÃO\P0rojetos-RPA\Projetos-RPA\SQLizinho:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
