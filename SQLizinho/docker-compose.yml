@@ -19,3 +19,5 @@ services:
       MYSQL_USER: usuario
       MYSQL_PASSWORD: senha
       TZ: America/Sao_Paulo
+      MYSQL_WAIT_TIMEOUT: 600 # 10 minutos
+      MYSQL_INTERACTIVE_TIMEOUT: 600 # 10 minutos
